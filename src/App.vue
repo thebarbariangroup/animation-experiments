@@ -1,19 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic} from "gsap/all";
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+// Disable Treeshaking of transpilers (and call plugins[0] to fix a warning in Vue)
+const plugins = [TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic];
+plugins[0];
+
+export default {};
 </script>
 
 <style>
