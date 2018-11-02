@@ -33,8 +33,6 @@ export default {
       return `${location.pathname}/${item.name}`;
     },
     getDisplayName (item) {
-      // eslint-disable-next-line
-      console.log(item);
       return item.displayName || item.name;
     },
     getExperimentsData () {
@@ -49,6 +47,7 @@ export default {
         const prefixedItem = response.data.items.find((item) => {
           return item.name === prefix;
         });
+        
         return this.items = prefixedItem.items;
       });
     }
