@@ -1,6 +1,19 @@
-
 <template>
-  <div class="metaball-clock__wrapper">
+  <div class="metaball-clock__container">
+    <svg>
+      <defs>
+        <filter id="metaball">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+          <feColorMatrix in="blur" mode="matrix"
+            values="1   0   0   0   0
+                    0   1   0   0   0 
+                    0   0   1   0   0 
+                    0   0   0   18  -7"
+            result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
     <div class="metaball-clock">
       <span class="hours"
         ref="hours"
@@ -68,7 +81,8 @@ export default {
     initSecondTimeline () {
       this.secondTimeline = new TimelineMax({
         repeat: -1,
-        yoyo: false
+        yoyo: false,
+        onUpdate: this.updateFilter('.seconds')
       });
       this.secondTimeline.to(this.$refs.lastSecond, 1, {
         opacity: 0,
@@ -83,28 +97,24 @@ export default {
       this.minuteTimeline = new TimelineMax({
         repeat: -1,
         yoyo: false
+        // ,
+        // onUpdate: this.updateFilter('.minutes')
       });
       this.minuteTimeline.to(this.$refs.lastMinute, 60, {
         opacity: 0,
         ease: Power3.easeIn
       })
-      // .to(this.$refs.lastMinute, 5, {
-      //   opacity: 0,
-      //   ease: Power1.easeIn
-      // })
       .to(this.$refs.nextMinute, 60, {
         opacity: 1,
         ease: Power3.easeIn
       }, "-=60")
-      // .to(this.$refs.nextMinute, 5, {
-      //   opacity: 1,
-      //   ease: Power1.easeIn
-      // });
     },
     initHourTimeline () {
       this.hourTimeline = new TimelineMax({
         repeat: -1,
         yoyo: false
+        // ,
+        // onUpdate: this.updateFilter('.hours')
       });
       this.hourTimeline.to(this.$refs.lastHour, 1200, {
         opacity: 0,
@@ -114,6 +124,17 @@ export default {
         opacity: 1,
         ease: Power3.easeIn    
       }, "-=1200");
+    },
+    updateFilter(e) {
+      if (typeof(e) === "string") { 
+        e = document.querySelector(e);
+      }
+      var filter = getComputedStyle(e).filter;
+      return function() {
+        e.style.filter = "none";
+        e.offsetWidth; //just to trigger repaint
+        e.style.filter = filter;
+      }
     }
   },
   mounted () {
@@ -136,6 +157,8 @@ export default {
   font-weight: 700;
   font-family: Consolas, monospace;
   backface-visibility: hidden;
+  background-color: blue;
+  color: red;
 
   &__wrapper {
     position: relative;
@@ -144,15 +167,13 @@ export default {
 
   .seconds, .minutes, .hours {
     position: relative;
-    background-color: white;
-    filter: blur(3px) contrast(15);
-    text-shadow: rgb(69, 0, 97) 0 0 10px; 
+
+    filter: url('#metaball');
   }
 
   .last {
-    &-second, &-minute, &-hour {
-      // color: white;
-    }
+    // &-second, &-minute, &-hour {
+    // }
   }
   .next {
     &-second, &-minute, &-hour {
@@ -160,59 +181,10 @@ export default {
       top: 0;
       left: 0;
       right: 0;
-      color: rgb(69, 0, 97);
       opacity: 0;
+      // color: green;
+      // color: rgb(69, 0, 97);
     }
   }
-// .metaball-clock {
-//   position: absolute;
-//   top: 45%;
-//   left: 0;
-//   right: 0;
-//   text-align: center;
-//   font-size: 10em;
-//   font-weight: 700;
-//   font-family: Consolas, monospace;
-
-//   backface-visibility: hidden;
-//   // transition: opacity .016s;
-
-//   &__wrapper {
-//     position: relative;
-//     height: 90vh;
-//   }
-
-//   &__last, &__next {
-//     // filter: blur(3px);
-//   }
-
-//   &__last {
-//     & > span {
-//       background-color: white;
-
-//       filter: contrast(17);
-//       // filter: blur(3px);
-//       text-shadow: rgb(69, 0, 97) 0 0 10px;
-//     }
-//   }
-
-//   &__next {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     z-index: -1;
-
-//     & > span {
-//       background-color: white;
-
-//       filter: contrast(17);
-//       // filter: blur(3px);
-//       color: rgb(69, 0, 97);
-//       text-shadow: rgb(69, 0, 97) 0 0 10px;
-//       opacity: 0;
-//     }
-//   }
-
 }
 </style>
