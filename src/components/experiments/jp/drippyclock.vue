@@ -13,12 +13,12 @@
           <feComposite in="SourceGraphic" in2="textGoo" operator="atop" />
         </filter>
         <filter id="bgFilter">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="bgBlur" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="bgBlur" />
           <feColorMatrix in="bgBlur" mode="matrix"
             values="1   0   0   0   0
                     0   1   0   0   0 
                     0   0   1   0   0 
-                    0   0   0   18  -7"
+                    0   0   0   20  -7"
             result="bgGoo" />
             <feBlend in="SourceGraphic" in2="bgGoo" />
         </filter>
@@ -259,8 +259,9 @@ $c_text: $c_accent2;
     left: 0;
     right: 0;
     // bottom: 0;
-    height: 76%;
-    background-color: $c_accent1;
+    // height: 70%;
+    height: 78%;
+    background-color: white;
   }
 
   .droplet {
