@@ -20,7 +20,8 @@
                     0   0   1   0   0 
                     0   0   0   20  -7"
             result="bgGoo" />
-            <feBlend in="SourceGraphic" in2="bgGoo" />
+            <!-- <feBlend in="SourceGraphic" in2="bgGoo" /> -->
+            <feComposite in="SourceGraphic" in2="bgGoo" operator="atop" />
         </filter>
       </defs>
     </svg>
@@ -44,6 +45,9 @@
         <div class="droplet droplet--m2" ref="minuteDroplet2"></div>
         <div class="droplet droplet--h1" ref="hourDroplet1"></div>
         <div class="droplet droplet--h2" ref="hourDroplet2"></div>
+        <!-- <div class="pool" ref="pool">
+          <div class="pool__liquid" ref="poolLiquid"></div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -70,6 +74,7 @@ export default {
     animate () {
       this.setTimes();
       this.scrubTweens();
+      // this.setPoolPosition();
       this.formatTimes();
       requestAnimationFrame(() => {
         this.animate();
@@ -80,7 +85,7 @@ export default {
       this.ms = d.getMilliseconds();
       this.ls = d.getSeconds();
       this.lm = d.getMinutes();
-      this.lh = d.getHours() % 12;
+      this.lh = Math.max(d.getHours() % 13, 1);
       this.ns = (this.ls + 1) % 60;
       this.nm = (this.lm + 1) % 60;
       this.nh = (this.lh + 1) % 12;
@@ -95,6 +100,10 @@ export default {
     },
     addLeadingZero (num) {
       return num < 10 ? `0${num}` : `${num}`;
+    },
+    setPoolPosition () {
+      const waterLevel = (this.lh%6 + (this.lm + (this.ls + this.ms/1000) / 60) / 60) / 6;
+      this.$refs.poolLiquid.style.transform = `translateY(-${waterLevel * 100}%)`;
     },
     scrubTweens () {
       this.secondTimeline.progress(this.ms / 1000);
@@ -121,22 +130,22 @@ export default {
       // .add(secondTimeline2).add(minuteTimeline1).add(minuteTimeline2).add(hourTimeline1).add(hourTimeline2);
       this.dropSecondTimeline1
         .to(this.$refs.secondDroplet1, 1, {y: '60%', scale: '.6', ease: Power1.ease})
-        .to(this.$refs.secondDroplet2, 1, {y: '100vh',ease: Power1.easeIn}, '-=1');
+        .to(this.$refs.secondDroplet2, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn}, '-=1');
       this.dropSecondTimeline2
         .to(this.$refs.secondDroplet3, 10, {y: '60%', scale: '.6', ease: Power0.easeNone})
-        .to(this.$refs.secondDroplet3, 1, {y: '100vh', ease: Power1.easeIn});
+        .to(this.$refs.secondDroplet3, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn});
       this.dropMinuteTimeline1
         .to(this.$refs.minuteDroplet1, 60, {y: '60%', scale: '.6', ease: Power0.easeNone})
-        .to(this.$refs.minuteDroplet1, 1, {y: '100vh', ease: Power1.easeIn});
+        .to(this.$refs.minuteDroplet1, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn});
       this.dropMinuteTimeline2
         .to(this.$refs.minuteDroplet2, 600, {y: '60%', scale: '.6', ease: Power0.easeNone})
-        .to(this.$refs.minuteDroplet2, 1, {y: '100vh', ease: Power1.easeIn});
+        .to(this.$refs.minuteDroplet2, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn});
       this.dropHourTimeline1
         .to(this.$refs.hourDroplet1, 1200, {y: '60%', scale: '.6', ease: Power0.easeNone})
-        .to(this.$refs.hourDroplet1, 1, {y: '100vh', ease: Power1.easeIn});
+        .to(this.$refs.hourDroplet1, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn});
       this.dropHourTimeline2
         .to(this.$refs.hourDroplet2, 12000, {y: '60%', scale: '.6', ease: Power0.easeNone})
-        .to(this.$refs.hourDroplet2, 1, {y: '100vh', ease: Power1.easeIn});
+        .to(this.$refs.hourDroplet2, 1, {y: '100vh', scaleX: '.5', ease: Power1.easeIn});
     },
     initSecondTimeline () {
       this.secondTimeline = new TimelineMax({repeat: -1, yoyo: false, onUpdate: this.updateFilter('.seconds')});
@@ -197,8 +206,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$c_accent1: rgb(16, 42, 156);
-$c_accent2: rgb(0, 153, 255);
+$c_accent1: rgb(0, 153, 255);
+// $c_accent1: rgb(16, 42, 156);
+$c_accent2: white;
+// $c_accent2: rgb(0, 153, 255);
 $c_accent3: black;
 $c_text: $c_accent2;
 
@@ -256,12 +267,10 @@ $c_text: $c_accent2;
   .background {
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    // bottom: 0;
-    // height: 70%;
+    left: -20px;
+    right: -20px;
     height: 78%;
-    background-color: white;
+    background-color: $c_accent1;
   }
 
   .droplet {
@@ -270,10 +279,21 @@ $c_text: $c_accent2;
     height: 75px;
     width: 75px;
     border-radius: 50%;
-    background-color: $c_accent2;
+    // background-color: $c_accent2;
+    background-color: $c_accent1;
     transform: translate(-50%, -100%);
     z-index: -10;
 
+    &:after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      bottom: 0;
+      width: 20%;
+      background-color: inherit;
+      transform: translateX(-50%);
+    }
 
     &--s1 {
       left: calc(50% + 335px);
@@ -298,5 +318,23 @@ $c_text: $c_accent2;
       left: calc(50% - 335px);
     }
   }
+
+  // .pool {
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   right: 0;
+  //   bottom: 0;
+
+  //   &__liquid {
+  //     position: absolute;
+  //     top: 100vh;
+  //     left: -20px;
+  //     right: -20px;
+  //     height: 80vh;
+  //     background-color: $c_accent1;
+  //     z-index: 1;
+  //   }
+  // }
 }
 </style>
