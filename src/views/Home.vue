@@ -15,11 +15,7 @@ export default {
     HelloWorld
   },
   data: function () {
-    return {
-      siteData: {
-        experiments: {}
-      }
-    }
+    return {}
   }
 }
 </script>

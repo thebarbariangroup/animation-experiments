@@ -1,35 +1,37 @@
 <template>
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="47" fill="#000000" stroke="#000000" stroke-width="4" />
-    <!-- <circle cx="50" cy="50" r="45" fill="#FFFFFF"/> -->
+  <div class="container">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="47" fill="#000000" stroke="#000000" stroke-width="4" />
+      <!-- <circle cx="50" cy="50" r="45" fill="#FFFFFF"/> -->
 
-    <!-- MSecond hand colors -->
-    <path d="" stroke="#000000" ref="mSecondColor" />
-    <path />
-    <!--/MSecond hand colors -->
+      <!-- MSecond hand colors -->
+      <path d="" stroke="#000000" ref="mSecondColor" />
+      <path />
+      <!--/MSecond hand colors -->
 
-    <!-- Second hand colors -->
-    <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#FF0000" ref="secondHand" />  -->
-    <path d="" stroke="#FF0000" ref="secondColor" />
-    <path />
-    <!--/Second hand colors -->
+      <!-- Second hand colors -->
+      <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#FF0000" ref="secondHand" />  -->
+      <path d="" stroke="#FF0000" ref="secondColor" />
+      <path />
+      <!--/Second hand colors -->
 
-    <!-- Minute hand colors -->
-    <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#FFFF00" stroke-width="1" ref="minuteHand" />  -->
-    <path d="" stroke="#FFFF00" ref="minuteColor" />
-    <path />
-    <!--/Minute hand colors -->
+      <!-- Minute hand colors -->
+      <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#FFFF00" stroke-width="1" ref="minuteHand" />  -->
+      <path d="" stroke="#FFFF00" ref="minuteColor" />
+      <path />
+      <!--/Minute hand colors -->
 
-    <!-- Hour hand colors -->
-    <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#0000FF" stroke-width="1" ref="hourHand" />  -->
-    <path d="" stroke="#0000FF" ref="hourColor" />
-    <path />
-    <!--/Hour hand colors -->
+      <!-- Hour hand colors -->
+      <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#0000FF" stroke-width="1" ref="hourHand" />  -->
+      <path d="" stroke="#0000FF" ref="hourColor" />
+      <path />
+      <!--/Hour hand colors -->
 
-    <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#000000" ref="mSecondHand" />  -->
+      <!-- <line x1="50" y1="50" x2="0" y2="0" stroke="#000000" ref="mSecondHand" />  -->
 
-    <circle cx="50" cy="50" r="5" fill="#FF0000"/>
-  </svg>
+      <circle cx="50" cy="50" r="5" fill="#FF0000" ref="secondCircle" />
+    </svg>
+  </div>
 </template>
 
 <script>
@@ -50,6 +52,10 @@
     const y = cy + r * Math.cos(angle);
 
     return [x, y];
+  }
+
+  function easeInOutQuad (t) { 
+    return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 
   }
 
   export default {
@@ -80,11 +86,22 @@
       },
 
       animateSecondHand (msec, sec) {
-        const angle = ((sec + msec) / (60*1000) * (2 * Math.PI) + Math.PI) * -1;
+        const tMSec = sec + msec;
+        const angle = (tMSec / (60*1000) * (2 * Math.PI) + Math.PI) * -1;
         const [x, y] = polarToCartesian(50, 50, rSecond, angle);
 
         // this.drawHand(this.$refs.secondHand, x, y);
         this.paintCircle(this.$refs.secondColor, startPointSecond, [x, y], rSecond, angle);
+
+        if (tMSec >= 59000) {
+          const percentFull = easeInOutQuad((100 - ((60000 - tMSec) / 10)) / 100) * 100;
+          this.$refs.secondCircle.setAttribute('r', 0.38 * percentFull + 5);
+        } else if (sec + msec <= 500){
+          console.log(easeInOutQuad((100 - tMSec / 5) / 100) * 100);
+          const percentFull = easeInOutQuad((100 - tMSec / 5) / 100) * 100;
+          this.$refs.secondCircle.setAttribute('r', 0.38 * percentFull + 5);
+        }
+
       },
 
       animateMinuteHand (msec, sec, min) {
@@ -128,7 +145,9 @@
 </script>
 
 <style>
-body {
+.container {
+  width: 100vw;
+  height: 100vh;
   background-color: #000;
 }
 
