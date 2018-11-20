@@ -26,7 +26,7 @@ export default class FBO {
 
     //4 create a target texture
     var options = {
-      minFilter: THREE.NearestFilter,//important as we want to sample square pixels
+      minFilter: THREE.LinearMipMapLinearFilter,//important as we want to sample square pixels
       magFilter: THREE.NearestFilter,//
       format: THREE.RGBAFormat,//180407 changed to RGBAFormat
       type: THREE.FloatType//important as we need precise coordinates (not ints)
@@ -42,18 +42,18 @@ export default class FBO {
          1,  1,  0, 
         -1, -1,  0, 
          1,  1,  0, 
-        -1,  1,  0 
+        -1,  1,  0,
       ]), 3 ) 
     );
 
     geom.addAttribute( 'uv', new THREE.BufferAttribute( new Float32Array([   
-         0,  1, 
-         1,  1, 
-         1,  0,     
+         0, 1, 
+         1, 1, 
+         1, 0,
 
-         0,  1, 
-         1,  0, 
-         0,  0 
+         0, 1, 
+         1, 0, 
+         0, 0
       ]), 2 ) 
     );
     this.scene.add( new THREE.Mesh( geom, simulationMaterial ) );
@@ -67,6 +67,8 @@ export default class FBO {
       vertices[ i3 ] = ( i % width ) / width ;
       vertices[ i3 + 1 ] = ( i / width ) / height;
     }
+
+    console.log(vertices);
 
     //create the particles geometry
     var geometry = new THREE.BufferGeometry();
