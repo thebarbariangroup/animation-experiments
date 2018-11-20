@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     getLink (item) {
-      return `${location.pathname}/${item.name}`;
+      return `${location.pathname.replace(/\/$/, '')}/${item.name}`;
     },
     getDisplayName (item) {
       return item.displayName || item.name;

@@ -1,21 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-link to="/experiments">Browse Experiments</router-link>
+    <br/>
+    <button class="slideshow-button" @click="$parent.startSlideshow()">Start Slideshow</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+// import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
-  },
   data: function () {
     return {}
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.home {
+  padding: 8px;
+
+  & .slideshow-button {
+    margin: 5px 0;
+  }
+}
+</style>
+

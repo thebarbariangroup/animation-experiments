@@ -6,7 +6,7 @@
 
 <script>
 // import ThrottleHelper from '@/scripts/utils/ThrottleHelper';
-import FBO from '@/components/experiments/cc/scripts/canvas-text/FBO';
+import FBO from '@/components/experiments/cc/_scripts/canvas-text/FBO';
 // import ShaderLoader from '@/components/experiments/cc/scripts/canvas-text/ShaderLoader';
 
 export default {
