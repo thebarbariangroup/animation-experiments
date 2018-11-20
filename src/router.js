@@ -24,11 +24,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: '/experiment/:prefix?',
+      path: '/experiments/:prefix?',
       component: ExperimentListing
     },
     {
-      path: '/experiment/:prefix/:id',
+      path: '/experiments/:prefix/:id',
       name: 'experiment',
       component: Experiment
     }
