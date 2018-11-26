@@ -10,7 +10,13 @@ import ThrottleHelper from '@/scripts/utils/ThrottleHelper';
 export default {
   name: 'canvas-test',
   data: function () {
-    return {}
+    return {
+      scene: null,
+      camera: null,
+      renderer: null,
+      cubes: null,
+      pointLight: null
+    }
   },
   methods: {
     init () {
@@ -97,9 +103,14 @@ export default {
   mounted () {
     this.init();
   },
-  beforeDestroy() {
+  destroyed() {
     this.mouseMoveHelper.remove(this.mouseMoveCallbackID);
-  },
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.cubes = null;
+    this.pointLight = null;
+  }
 }
 </script>
 

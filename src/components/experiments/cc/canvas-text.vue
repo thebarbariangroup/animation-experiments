@@ -12,7 +12,14 @@ import FBO from '@/components/experiments/cc/_scripts/canvas-text/FBO';
 export default {
   name: 'canvas-text',
   data: function () {
-    return {}
+    return {
+      scene: null,
+      camera: null,
+      renderer: null,
+      img: null,
+      mouse: null,
+      fbo: null
+    }
   },
   methods: {
     init () {
@@ -217,6 +224,15 @@ export default {
   },
   mounted () {
     this.init();
+  },
+  destroyed () {
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.img = null;
+    this.mouse = null;
+    this.fbo.kill();
+    this.fbo = null;
   }
 }
 </script>
