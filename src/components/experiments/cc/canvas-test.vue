@@ -93,6 +93,7 @@ export default {
       this.renderer.render(scene, camera);
     }
   },
+
   mounted () {
     this.init();
   },

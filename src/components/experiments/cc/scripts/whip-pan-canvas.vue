@@ -1,0 +1,1 @@
+whip-pan-canvas.vue

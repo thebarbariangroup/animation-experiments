@@ -26,7 +26,7 @@ export default class FBO {
 
     //4 create a target texture
     var options = {
-      minFilter: THREE.LinearMipMapLinearFilter,//important as we want to sample square pixels
+      minFilter: THREE.NearestFilter,//important as we want to sample square pixels
       magFilter: THREE.NearestFilter,//
       format: THREE.RGBAFormat,//180407 changed to RGBAFormat
       type: THREE.FloatType//important as we need precise coordinates (not ints)

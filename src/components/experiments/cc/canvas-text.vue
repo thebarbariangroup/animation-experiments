@@ -28,7 +28,7 @@ export default {
       var h = window.innerHeight;
       //regular scene creation
       this.scene = new THREE.Scene();
-      this.camera = new THREE.PerspectiveCamera(60, w/h, 1, 10000);
+      this.camera = new THREE.PerspectiveCamera(45, w/h, 1, 10000);
       this.camera.position.z = 200;
       this.renderer = new THREE.WebGLRenderer();
       this.renderer.setSize( w,h );
@@ -96,7 +96,8 @@ export default {
               posTest = position;
 
               //pos now contains the position of a point in space taht can be transformed
-              gl_Position = projectionMatrix * modelViewMatrix * vec4( pos.x, pos.y, 10. * (sin(time * posTest.x / 500.)) , 1.0 );
+              //gl_Position = projectionMatrix * modelViewMatrix * vec4( pos.x, pos.y, pos.z, 1.0 );
+              gl_Position = projectionMatrix * modelViewMatrix * vec4( pos.x, pos.y, 1000. * sin(pos.x/11.) * (sin(time / 10000.)) , 1.0 );
 
               gl_PointSize = pointSize;
           }
@@ -109,14 +110,16 @@ export default {
           }
         `,
         // transparent: true,
-        blending:THREE.AdditiveBlending
+        // blending:THREE.AdditiveBlending
       } );
       //init the FBO
       this.fbo.init( width,height, this.renderer, simulationShader, renderShader );
       this.scene.add( this.fbo.particles );
       //GO !
-      window.addEventListener( "resize", this.onResize );
+      this.setupEventListeners();
+
       this.onResize();
+
       this.update();
     },
 
@@ -176,6 +179,21 @@ export default {
       canvas.width = w || 512;
       canvas.height = h || 512;
       return canvas;
+    },
+
+    setupEventListeners () {
+      window.addEventListener( "resize", this.onResize );
+      this.renderer.domElement.addEventListener('mousemove', this.onMouseMove);
+    },
+
+    onMouseMove(e) {
+      console.log(e.clientX, e.clientY);
+      if (this.mouse.ticked)
+      this.mouse = {
+        ticked: true,
+        x: e.clientX,
+        y: e.clientY
+      };
     },
 
     onResize () {
