@@ -5,8 +5,8 @@
 </template>
 
 <script>
-// import ThrottleHelper from '@/scripts/utils/ThrottleHelper';
 import FBO from '@/components/experiments/cc/_scripts/canvas-text/FBO';
+// import ThrottleHelper from '@/scripts/utils/ThrottleHelper';
 // import ShaderLoader from '@/components/experiments/cc/scripts/canvas-text/ShaderLoader';
 
 export default {
@@ -43,7 +43,7 @@ export default {
       const data = this.getImage(width, height, 32);
       var positions = new THREE.DataTexture( data, width, height, THREE.RGBFormat, THREE.FloatType );
       positions.needsUpdate = true;
-      console.log(positions);
+      // console.log(positions);
 
       //this will be used to update the particles' positions
       var simulationShader = new THREE.ShaderMaterial({
@@ -187,7 +187,7 @@ export default {
     },
 
     update (time) {
-      requestAnimationFrame(this.update);
+      this._rafID = requestAnimationFrame(this.update);
       //update the simulation
       this.fbo.update(time);
       //update mesh

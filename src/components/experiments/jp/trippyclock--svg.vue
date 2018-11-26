@@ -48,7 +48,7 @@ export default {
       this.setTimes();
       this.scrubTweens();
       this.formatTimes();
-      requestAnimationFrame(() => {
+      this._rafID = requestAnimationFrame(() => {
         this.animate();
       });
     },

@@ -5,7 +5,7 @@
     </div>
     <div class="experiment-listing-list">
       <ul class="experiment-listing-list_list">
-        <li v-for="(item, index) in items" v-bind:key="index">
+        <li v-for="(item, index) in items" :key="index">
           <router-link :to="getLink(item)">
             {{getDisplayName(item)}}
           </router-link>

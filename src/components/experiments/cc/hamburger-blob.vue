@@ -48,7 +48,7 @@ export default {
       tl2.timeScale(timeScale);
 
       this.active = true;
-      console.log(this.active);
+      // console.log(this.active);
     },
     close () {
       const r = this.$refs;

@@ -54,7 +54,7 @@ export default {
     animate () {
       this.setRawTime();
       this.setFormattedTime();
-      requestAnimationFrame(() => {
+      this._rafID = requestAnimationFrame(() => {
         this.animate();
       });
     },

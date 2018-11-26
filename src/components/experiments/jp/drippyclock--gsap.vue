@@ -76,7 +76,7 @@ export default {
       this.scrubTweens();
       // this.setPoolPosition();
       this.formatTimes();
-      requestAnimationFrame(() => {
+      this._rafID = requestAnimationFrame(() => {
         this.animate();
       });
     },

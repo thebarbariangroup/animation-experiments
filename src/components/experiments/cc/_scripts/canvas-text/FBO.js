@@ -68,7 +68,7 @@ export default class FBO {
       vertices[ i3 + 1 ] = ( i / width ) / height;
     }
 
-    console.log(vertices);
+    // console.log(vertices);
 
     //create the particles geometry
     var geometry = new THREE.BufferGeometry();
@@ -86,6 +86,15 @@ export default class FBO {
     //2 use the result of the swap as the new position for the particles' renderer
     this.particles.material.uniforms.positions.value = this.rtt;
     this.particles.material.uniforms.time.value = time;
+  }
+
+  kill () {
+    this.renderer.forceContextLoss();
+    this.renderer = null;
+    this.scene = null;
+    this.particles = null;
+    this.orthoCamera = null;
+    this.rtt = null;
   }
 
 }

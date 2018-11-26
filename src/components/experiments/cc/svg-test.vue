@@ -72,7 +72,7 @@
         this.animateMinuteHand(msec, sec, min);
         this.animateHourHand(msec, sec, min, hour);
 
-        requestAnimationFrame(() => {
+        this._rafID = requestAnimationFrame(() => {
           this.animate();
         });
       },
@@ -97,7 +97,7 @@
           const percentFull = easeInOutQuad((100 - ((60000 - tMSec) / 10)) / 100) * 100;
           this.$refs.secondCircle.setAttribute('r', 0.38 * percentFull + 5);
         } else if (sec + msec <= 500){
-          console.log(easeInOutQuad((100 - tMSec / 5) / 100) * 100);
+          // console.log(easeInOutQuad((100 - tMSec / 5) / 100) * 100);
           const percentFull = easeInOutQuad((100 - tMSec / 5) / 100) * 100;
           this.$refs.secondCircle.setAttribute('r', 0.38 * percentFull + 5);
         }
@@ -137,7 +137,7 @@
       }
     },
     mounted () {
-      requestAnimationFrame(() => {
+      this._rafID = requestAnimationFrame(() => {
         this.animate();
       });
     }

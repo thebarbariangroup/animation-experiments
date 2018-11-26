@@ -19,10 +19,12 @@ export default {
   name: 'app',
   data: () => {
     return {
+      moduleCashe: {},
       slideshow: {
         items: [],
         active: false,
         idx: 0,
+        interval: 1,
         timeout: null
       }
     };
@@ -32,7 +34,6 @@ export default {
       return this.axios.get('/experiments.json')
       .then((response) => {
         this.parseExperiments(response.data.items, '/experiments');
-        console.log(response);
       });
     },
     parseExperiments (items, path) {
@@ -56,8 +57,9 @@ export default {
       }
       this.$router.push(this.slideshow.items[this.slideshow.idx]);
     },
-    startSlideshow () {
+    startSlideshow (interval = 1) {
       this.getExperimentsData().then(() => {
+        this.slideshow.interval = interval;
         this.slideshow.items = shuffle(this.slideshow.items);
         this.slideshow.active = true;
         this.slideshow.idx = 0;
@@ -70,7 +72,7 @@ export default {
         clearTimeout(this.slideshow.timeout);
         this.slideshow.timeout = setTimeout(() => {
           this.setSlideshowTimeout();
-        }, 10000);
+        }, 60000 * this.slideshow.interval);
       }
     },
     stopSlideshow () {

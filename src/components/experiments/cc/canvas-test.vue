@@ -19,9 +19,9 @@ export default {
       this.scene = new THREE.Scene();
       this.camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
       
-      const renderer = new THREE.WebGLRenderer({canvas: this.$refs.canvas});
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      this.$refs.container.appendChild(renderer.domElement);
+      this.renderer = new THREE.WebGLRenderer({canvas: this.$refs.canvas});
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.$refs.container.appendChild(this.renderer.domElement);
 
       this.cubes = this.createCubes();
 
@@ -30,12 +30,12 @@ export default {
       this.camera.position.z = 5;
 
       this.setupEventHandlers();
-      this.animate(renderer, this.scene, this.camera);
+      this.animate(this.renderer, this.scene, this.camera);
     },
 
     setupEventHandlers () {
       this.checkMouse = this.checkMouse.bind(this);
-      this.mouseMoveHelper.add(this.checkMouse);
+      this.mouseMoveCallbackID = this.mouseMoveHelper.add(this.checkMouse);
     },
 
     createCubes () {
@@ -85,17 +85,20 @@ export default {
     },
 
     animate (renderer, scene, camera) {
-      requestAnimationFrame(() => {
-        this.animate(renderer, scene, camera);
+      this._rafID = requestAnimationFrame(() => {
+        this.animate(this.renderer, scene, camera);
       });
 
       // this.rotateCube();
-      renderer.render(scene, camera);
+      this.renderer.render(scene, camera);
     }
   },
   mounted () {
     this.init();
-  }
+  },
+  beforeDestroy() {
+    this.mouseMoveHelper.remove(this.mouseMoveCallbackID);
+  },
 }
 </script>
 

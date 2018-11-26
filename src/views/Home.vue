@@ -1,8 +1,11 @@
 <template>
   <div class="home">
     <router-link to="/experiments">Browse Experiments</router-link>
+    <br/><br/>
+    <label for="slideInterval">Slideshow Interval (min): </label>
+    <input type="number" name="slideInterval" v-model="slideInterval">
     <br/>
-    <button class="slideshow-button" @click="$parent.startSlideshow()">Start Slideshow</button>
+    <button class="slideshow-button" @click="$parent.startSlideshow(slideInterval)">Start Slideshow</button>
   </div>
 </template>
 
@@ -13,7 +16,9 @@
 export default {
   name: 'home',
   data: function () {
-    return {}
+    return {
+      slideInterval: 1
+    }
   }
 }
 </script>
