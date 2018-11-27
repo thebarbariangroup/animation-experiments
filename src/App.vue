@@ -10,6 +10,8 @@ import shuffle from '@/scripts/utils/shuffle';
 import {TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic} from "gsap/all";
 import * as THREE from "three";
 window.THREE = THREE;
+// import * as dat from 'dat.gui';
+// window.dat = dat;
 
 // Disable Treeshaking of transpilers (and call plugins[0] to fix a warning in Vue)
 const plugins = [TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic];
