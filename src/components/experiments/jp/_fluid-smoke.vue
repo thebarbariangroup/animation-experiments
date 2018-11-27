@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import index from '@/components/experiments/jp/_scripts/fluid-smoke/index';
+import webGLFluidSimulation from '@/components/experiments/jp/_scripts/fluid-smoke/WebGL-Fluid-Simulation';
 
 export default {
   name: 'fluid-smoke',
   mounted () {
-    index();
+    webGLFluidSimulation();
   }
 }
 </script>
@@ -33,11 +33,12 @@ export default {
     height: 100%;
   }
   .fluid-smoke {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    overflow: hidden;
   }
   .dg {
     opacity: 0.9;
