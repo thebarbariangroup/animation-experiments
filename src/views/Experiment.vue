@@ -6,6 +6,7 @@
 
 <script>
 import cleanupExperiment from '@/scripts/mixins/cleanupExperiment';
+import runDemo from '@/scripts/mixins/runDemo';
 
 export default {
   name: 'experiment',
@@ -23,9 +24,8 @@ export default {
     importExperiment () {
       return new Promise(async (resolve) => {
         const module = await import(`@/components/experiments/${this.expPrefix}/${this.expID}.vue`);
-
         module.default = Object.assign(module.default, {
-          mixins: [cleanupExperiment]
+          mixins: [cleanupExperiment, runDemo]
         });
 
         this.$parent.moduleCashe[this.expPrefix] = Object.assign(this.$parent.moduleCashe[this.expPrefix] || {}, {

@@ -55,9 +55,9 @@ export default {
     nextSlide () {
       this.slideshow.idx++;
       if (this.slideshow.idx >= this.slideshow.items.length) {
-        this.slideshow.idx = 0;  
+        this.slideshow.idx = 0;
       }
-      this.$router.push(this.slideshow.items[this.slideshow.idx]);
+      this.$router.push(`${this.slideshow.items[this.slideshow.idx]}?demo=true`);
     },
     startSlideshow (interval = 1) {
       this.getExperimentsData().then(() => {

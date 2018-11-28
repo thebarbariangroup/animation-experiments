@@ -11,6 +11,10 @@ export default {
   name: 'fluid-smoke',
   mounted () {
     webGLFluidSimulation();
+  },
+  methods: {
+    _initDemo () {
+    }
   }
 }
 </script>
