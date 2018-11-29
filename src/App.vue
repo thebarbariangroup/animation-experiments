@@ -10,6 +10,8 @@ import shuffle from '@/scripts/utils/shuffle';
 import {TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic} from "gsap/all";
 import * as THREE from "three";
 window.THREE = THREE;
+// import * as dat from 'dat.gui';
+// window.dat = dat;
 
 // Disable Treeshaking of transpilers (and call plugins[0] to fix a warning in Vue)
 const plugins = [TweenMax, CSSPlugin, ScrollToPlugin, Draggable, Elastic];
@@ -53,9 +55,9 @@ export default {
     nextSlide () {
       this.slideshow.idx++;
       if (this.slideshow.idx >= this.slideshow.items.length) {
-        this.slideshow.idx = 0;  
+        this.slideshow.idx = 0;
       }
-      this.$router.push(this.slideshow.items[this.slideshow.idx]);
+      this.$router.push(`${this.slideshow.items[this.slideshow.idx]}?demo=true`);
     },
     startSlideshow (interval = 1) {
       this.getExperimentsData().then(() => {
