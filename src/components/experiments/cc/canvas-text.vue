@@ -189,8 +189,8 @@ export default {
     },
 
     setupEventListeners () {
-      window.addEventListener( "resize", this.onResize );
-      this.renderer.domElement.addEventListener('mousemove', this.onMouseMove);
+      // window.addEventListener( "resize", this.onResize );
+      // this.renderer.domElement.addEventListener('mousemove', this.onMouseMove);
     },
 
     onMouseMove(e) {
