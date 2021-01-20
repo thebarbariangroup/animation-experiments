@@ -11,7 +11,7 @@
     "axios": "^0.18.0",
     "dat.gui": "^0.7.3",
     "generate-json-webpack-plugin": "^0.3.1",
-    "gsap": "^2.0.2",
+    "gsap": "^3.6.0",
     "node-sass": "^4.9.4",
     "sass-loader": "^7.1.0",
     "three": "^0.98.0",
